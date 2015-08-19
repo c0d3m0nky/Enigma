@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnigmaMachine", "EnigmaMachine\EnigmaMachine.csproj", "{716542ED-9B88-465C-BC31-13999E806379}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Components", "Components\Components.csproj", "{7ECACB29-C97A-43B4-BEE2-E415B1056A76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{5DB2F35C-479F-45D1-B8CC-B9E3B5C73D10}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{716542ED-9B88-465C-BC31-13999E806379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716542ED-9B88-465C-BC31-13999E806379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716542ED-9B88-465C-BC31-13999E806379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716542ED-9B88-465C-BC31-13999E806379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ECACB29-C97A-43B4-BEE2-E415B1056A76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ECACB29-C97A-43B4-BEE2-E415B1056A76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ECACB29-C97A-43B4-BEE2-E415B1056A76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ECACB29-C97A-43B4-BEE2-E415B1056A76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DB2F35C-479F-45D1-B8CC-B9E3B5C73D10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DB2F35C-479F-45D1-B8CC-B9E3B5C73D10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DB2F35C-479F-45D1-B8CC-B9E3B5C73D10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DB2F35C-479F-45D1-B8CC-B9E3B5C73D10}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
