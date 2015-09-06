@@ -1,9 +1,9 @@
-﻿namespace Components.Wheels
+﻿namespace Components
 {
 
-    public class WheelWire
+    public class CylinderWire
     {
-        public WheelWire(char value, int terminationPosition)
+        public CylinderWire(char value, int terminationPosition)
         {
             Value = value;
             TerminationPosition = terminationPosition;

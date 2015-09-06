@@ -4,53 +4,74 @@ using System.Linq;
 namespace Components.Wheels
 {
 
-    public abstract class Wheel : IDisposable
+    public abstract class Wheel : Cylinder, IDisposable
     {
 
-        private readonly int _offset;
-        protected int Position = 0;
-
-        public delegate void SignalTransfer(int position);
+        protected int WheelPosition = 0;
 
         public delegate void WheelTrippedHandler(bool up);
 
         public event WheelTrippedHandler WheelTripped;
 
-        protected Wheel(int offset)
+        protected Wheel(char setting)
         {
-            _offset = offset;
+            WheelPosition = Positions.Select((tp, i) => new { InputPosition = i, Wire = tp }).First(p => p.Wire.Value == setting).InputPosition;
         }
 
-        protected abstract WheelWire[] Positions { get; }
+        #region Movement
 
         protected abstract int[] TripPositions { get; }
 
         public void Up()
         {
-            if (Position >= Positions.Count() - 1)
+            if (WheelPosition >= Positions.Count() - 1)
             {
-                Position = 0;
+                WheelPosition = 0;
             }
-            else Position++;
+            else WheelPosition++;
 
-            if (TripPositions.Contains(Position)) WheelTripped?.Invoke(true);
+            if (TripPositions.Contains(WheelPosition)) WheelTripped?.Invoke(true);
         }
 
         public void Down()
         {
-            if (TripPositions.Contains(Position)) WheelTripped?.Invoke(false);
+            if (TripPositions.Contains(WheelPosition)) WheelTripped?.Invoke(false);
 
-            if (Position == 0)
+            if (WheelPosition == 0)
             {
-                Position = Positions.Count() - 1;
+                WheelPosition = Positions.Count() - 1;
             }
-            else Position--;
+            else WheelPosition--;
         }
 
-        public void SendSignal(int position, SignalTransfer transfer)
+        #endregion
+
+        #region Signal
+
+        public event SignalTransfer ReturnSignalSent;
+
+        public void SendReturnSignal(int position)
         {
-            transfer(Positions[position + _offset].TerminationPosition);
+            var adjustedPosition = AdjustPositionForOffset(position);
+
+            ReturnSignalSent?.Invoke(AdjustPositionForOffset(Positions.Select((tp, i) => new { InputPosition = i, Wire = tp }).First(tp => tp.Wire.TerminationPosition == adjustedPosition).InputPosition));
         }
+
+        public override void SendSignal(int position)
+        {
+            TransferSignal(AdjustPositionForOffset(Positions[AdjustPositionForOffset(position)].TerminationPosition));
+        }
+
+        private int AdjustPositionForOffset(int position)
+        {
+            var result = position + WheelPosition;
+
+            if (result > Positions.Count() - 1) result = result - Positions.Count() + 1;
+
+            return result;
+        }
+
+        #endregion
 
         /// <summary>
         /// Returns a string that represents the current object.
@@ -60,7 +81,7 @@ namespace Components.Wheels
         /// </returns>
         public override string ToString()
         {
-            return Positions[Position].Value.ToString();
+            return Positions[WheelPosition].Value.ToString();
         }
 
         /// <summary>

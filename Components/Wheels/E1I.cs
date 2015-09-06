@@ -4,38 +4,38 @@
     public class E1I : Wheel
     {
 
-        public E1I(int offset) : base(offset) { }
+        public E1I(char setting) : base(setting) { }
 
         protected override int[] TripPositions { get; } = { 17 };
 
-        protected override WheelWire[] Positions { get; } =
+        protected override CylinderWire[] Positions { get; } =
             {
-                new WheelWire('A',4),
-                new WheelWire('B',10),
-                new WheelWire('C',12),
-                new WheelWire('D',5),
-                new WheelWire('E',11),
-                new WheelWire('F',6),
-                new WheelWire('G',3),
-                new WheelWire('H',16),
-                new WheelWire('I',21),
-                new WheelWire('J',25),
-                new WheelWire('K',13),
-                new WheelWire('L',19),
-                new WheelWire('M',14),
-                new WheelWire('N',22),
-                new WheelWire('O',24),
-                new WheelWire('P',7),
-                new WheelWire('Q',23),
-                new WheelWire('R',20),
-                new WheelWire('S',18),
-                new WheelWire('T',15),
-                new WheelWire('U',0),
-                new WheelWire('V',8),
-                new WheelWire('W',1),
-                new WheelWire('X',17),
-                new WheelWire('Y',2),
-                new WheelWire('Z',9)
+                new CylinderWire('A',4),
+                new CylinderWire('B',10),
+                new CylinderWire('C',12),
+                new CylinderWire('D',5),
+                new CylinderWire('E',11),
+                new CylinderWire('F',6),
+                new CylinderWire('G',3),
+                new CylinderWire('H',16),
+                new CylinderWire('I',21),
+                new CylinderWire('J',25),
+                new CylinderWire('K',13),
+                new CylinderWire('L',19),
+                new CylinderWire('M',14),
+                new CylinderWire('N',22),
+                new CylinderWire('O',24),
+                new CylinderWire('P',7),
+                new CylinderWire('Q',23),
+                new CylinderWire('R',20),
+                new CylinderWire('S',18),
+                new CylinderWire('T',15),
+                new CylinderWire('U',0),
+                new CylinderWire('V',8),
+                new CylinderWire('W',1),
+                new CylinderWire('X',17),
+                new CylinderWire('Y',2),
+                new CylinderWire('Z',9)
             };
 
     }

@@ -40,6 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cylinder.cs" />
+    <Compile Include="Reflectors\Reflector.cs" />
+    <Compile Include="Reflectors\UkwC.cs" />
+    <Compile Include="Reflectors\UkwB.cs" />
     <Compile Include="Wheels\E1I.cs" />
     <Compile Include="Wheels\E1III.cs" />
     <Compile Include="Wheels\M3IV.cs" />
@@ -50,7 +54,7 @@
     <Compile Include="Wheels\E1II.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wheels\Wheel.cs" />
-    <Compile Include="Wheels\WheelWire.cs" />
+    <Compile Include="CylinderWire.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
