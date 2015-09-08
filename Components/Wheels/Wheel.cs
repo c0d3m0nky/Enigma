@@ -53,13 +53,14 @@ namespace Components.Wheels
         public void SendReturnSignal(int position)
         {
             var adjustedPosition = AdjustPositionForOffset(position);
+            var incoming = Positions.Select((tp, i) => new {InputPosition = i, Wire = tp}).First(tp => tp.Wire.TerminationPosition == adjustedPosition);
 
-            ReturnSignalSent?.Invoke(AdjustPositionForOffset(Positions.Select((tp, i) => new { InputPosition = i, Wire = tp }).First(tp => tp.Wire.TerminationPosition == adjustedPosition).InputPosition));
+            ReturnSignalSent?.Invoke(AdjustPositionForNextOffset(incoming.InputPosition));
         }
 
         public override void SendSignal(int position)
         {
-            TransferSignal(AdjustPositionForOffset(Positions[AdjustPositionForOffset(position)].TerminationPosition));
+            TransferSignal(AdjustPositionForNextOffset(Positions[AdjustPositionForOffset(position)].TerminationPosition));
         }
 
         private int AdjustPositionForOffset(int position)
@@ -67,6 +68,15 @@ namespace Components.Wheels
             var result = position + WheelPosition;
 
             if (result > Positions.Count() - 1) result = result - Positions.Count() + 1;
+
+            return result;
+        }
+
+        private int AdjustPositionForNextOffset(int position)
+        {
+            var result = position - WheelPosition;
+
+            if (result < 0) result += Positions.Count();
 
             return result;
         }

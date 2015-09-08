@@ -15,7 +15,55 @@ namespace EnigmaMachine
         private Wheel _wheel2;
         private Reflector _reflector;
 
+        public delegate void LightUp(char c);
+
+        public event LightUp LightLit;
+
         // TODO: Go nuts, make the signal events wire based
+
+        public SteckerbrettM3(Wheel wheel0, Wheel wheel1, Wheel wheel2, Reflector reflector)
+        {
+            _wheel0 = wheel0;
+            _wheel1 = wheel1;
+            _wheel2 = wheel2;
+            _reflector = reflector;
+            HookupWheel0();
+            HookupWheel1();
+            HookupWheel2();
+            HookUpReflector();
+        }
+
+
+        private void HookupWheel0()
+        {
+            _wheel0.WheelTripped += up => WheelTripEvent(up, _wheel1);
+            // TODO: Subscribe to input
+            // TODO: Send to output
+            _wheel0.ReturnSignalSent += position =>
+            {
+                LightLit?.Invoke((char) (position + 65));
+            };
+        }
+
+
+        private void HookupWheel1()
+        {
+            _wheel1.WheelTripped += up => WheelTripEvent(up, _wheel2);
+            _wheel0.SignalSent += _wheel1.SendSignal;
+            _wheel2.ReturnSignalSent += _wheel1.SendReturnSignal;
+            _wheel1.ReturnSignalSent += _wheel0.SendReturnSignal;
+        }
+
+        private void HookupWheel2()
+        {
+            _wheel1.SignalSent += _wheel2.SendSignal;
+            _reflector.SignalSent += _wheel2.SendReturnSignal;
+        }
+
+        private void HookUpReflector()
+        {
+            _wheel2.SignalSent += _reflector.SendSignal;
+        }
 
         public Wheel Wheel0
         {
@@ -26,9 +74,7 @@ namespace EnigmaMachine
                 {
                     _wheel0?.Dispose();
                     _wheel0 = value;
-                    _wheel0.WheelTripped += up => WheelTripEvent(up, _wheel1);
-                    // TODO: Subscribe to input
-                    // TODO: Send to output
+                    HookupWheel0();
                 }
             }
         }
@@ -42,9 +88,7 @@ namespace EnigmaMachine
                 {
                     _wheel1?.Dispose();
                     _wheel1 = value;
-                    _wheel1.WheelTripped += up => WheelTripEvent(up, _wheel2);
-                    _wheel0.SignalSent += _wheel1.SendSignal;
-                    _wheel1.ReturnSignalSent += _wheel0.SendReturnSignal;
+                    HookupWheel1();
                 }
             }
         }
@@ -58,8 +102,7 @@ namespace EnigmaMachine
                 {
                     _wheel2?.Dispose();
                     _wheel2 = value;
-                    _wheel1.SignalSent += _wheel2.SendSignal;
-                    _reflector.SignalSent += _wheel1.SendReturnSignal;
+                    HookupWheel2();
                 }
             }
         }
@@ -72,7 +115,7 @@ namespace EnigmaMachine
                 if (_reflector == null || !_reflector.Equals(value))
                 {
                     _reflector = value;
-                    _wheel2.SignalSent += _reflector.SendSignal;
+                    HookUpReflector();
                 }
             }
         }
@@ -82,7 +125,16 @@ namespace EnigmaMachine
             if (up) wheel.Up();
             else wheel.Down();
         }
-        
+
+        public void SendInput(char c)
+        {
+            c = c.ToString().ToUpper()[0];
+
+            Wheel0.Up();
+
+            Wheel0.SendSignal(c - 65);
+        }
+
     }
 
 }

@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
+using Components.Reflectors;
 using Components.Wheels;
 
 using EnigmaMachine;
@@ -15,32 +17,51 @@ namespace TestConsole
     {
         static void Main(string[] args)
         {
-            var wheel = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+            //var wheel = new List<char> { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
-            while (true)
-            {
-                var mapping = Console.ReadLine().ToCharArray();
-
-                if (mapping.Length != 26)
-                {
-                    Console.WriteLine("Bad Mapping");
-                    continue;
-                }
-
-                Console.Clear();
-                for (int i = 0; i < 26; i++)
-                {
-                    Console.WriteLine("new CylinderWire('{0}',{1}),", wheel[i], wheel.IndexOf(mapping[i]));
-                }
-
-            }
-
-            //var machine = new SteckerbrettM3()
+            //while (true)
             //{
-            //    Wheel0 = new E1I(0),
-            //    Wheel1 = new E1II(0),
-            //    Wheel2 = new E1III(0)
-            //};
+            //    var mapping = Console.ReadLine().ToCharArray();
+
+            //    if (mapping.Length != 26)
+            //    {
+            //        Console.WriteLine("Bad Mapping");
+            //        continue;
+            //    }
+
+            //    Console.Clear();
+            //    for (int i = 0; i < 26; i++)
+            //    {
+            //        Console.WriteLine("new CylinderWire('{0}',{1}),", wheel[i], wheel.IndexOf(mapping[i]));
+            //    }
+
+            //}
+
+            var machine = new SteckerbrettM3(new E1I('A'), new E1II('A'), new E1III('A'), new UkwB());
+
+            var cnt = 0;
+            var processing = false;
+
+            machine.LightLit += c =>
+                                {
+                                    Console.CursorTop = 1;
+                                    Console.CursorLeft = cnt - 1;
+                                    Console.Write(c);
+                                    Console.CursorTop = 0;
+                                    Console.CursorLeft = cnt;
+                                };
+            var key = Console.ReadKey();
+
+            while (key.Key != ConsoleKey.Escape)
+            {
+                var c = key.KeyChar.ToString().ToUpper()[0];
+
+                //Console.Write(c);
+                cnt++;
+                machine.SendInput(c);
+
+                key = Console.ReadKey();
+            }
 
             //var aIsDone = false;
             //var aRestarted = false;
