@@ -55,6 +55,11 @@ namespace Components.Wheels
             var adjustedPosition = AdjustPositionForOffset(position);
             var incoming = Positions.Select((tp, i) => new {InputPosition = i, Wire = tp}).First(tp => tp.Wire.TerminationPosition == adjustedPosition);
 
+            var lastWheelOut = (char) (position + 65);
+            var wheelIn = (char) (AdjustPositionForOffset(position) + 65);
+            var wheelOut = (char) (incoming.InputPosition + 65);
+            var wheelOutOffset = (char) (AdjustPositionForNextOffset(incoming.InputPosition) + 65);
+
             ReturnSignalSent?.Invoke(AdjustPositionForNextOffset(incoming.InputPosition));
         }
 
